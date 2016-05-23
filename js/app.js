@@ -7,14 +7,13 @@ var charInput = document.getElementById("charToUse");
 // Button element
 var button = document.getElementById("inputButton");
 
-
 var numberOfChars = 1;
 var charString = "";
 
 // Pine tree object
 var pineTree = {
-  height: heightInput.value,
-  charToUse: charInput.value
+  height: null,
+  charToUse: null
 };
 
 
@@ -22,8 +21,7 @@ var pineTree = {
 
 // Function to build tree
 function buildTree() {
-  numberOfChars = 1;
-  getInput();
+  numberOfChars = 1;  
   var numberOfSpaces = pineTree.height - 1;
   for(var i = 0; i < pineTree.height; i++) {
     addBlanks(numberOfSpaces);
@@ -34,13 +32,15 @@ function buildTree() {
   charString = "";
 }
 
-// Get input from user for height and char
+// Get input from user for height and char, alert if not entered
 function getInput() {
-  pineTree.height = heightInput.value;
-  pineTree.charToUse = charInput.value;
-
-  console.log("Height Input: ", pineTree.height);
-  console.log("Char Input: ", pineTree.charToUse);
+  if(charInput.value === "" || heightInput.value === "") {
+    alert("Please enter both values to continue");
+  } else {
+    pineTree.height = heightInput.value;
+    pineTree.charToUse = charInput.value;
+    buildTree();
+  }
 }
 
 // Add blanks to offset string
@@ -68,15 +68,13 @@ function printCharString() {
 function enterPressed(event) {
   var key = event.which || event.keyCode;
     if (key === 13) {
-      pineTree.height = heightInput.value;
-      pineTree.charToUse = charInput.value;
-      buildTree();
+      getInput();
     }
 }
 
 // ================================= EVENT LISTENERS =================================
 
 // Event listeners
-button.addEventListener("click", buildTree);
+button.addEventListener("click", getInput);
 heightInput.addEventListener("keypress", enterPressed);
 charInput.addEventListener("keypress", enterPressed);
